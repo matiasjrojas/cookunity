@@ -1,7 +1,7 @@
 {
 	"name": "cookunity",
 	"version": "1.0.0",
-	"description": "CookUnity",
+	"description": "cookunity",
 	"main": "index.js",
 	"scripts": {
 		"start": "node server.js"

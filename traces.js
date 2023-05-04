@@ -5,6 +5,10 @@ const FIXER_API_URL = 'https://api.apilayer.com/fixer/latest';
 const CURRENCY_API_URL = 'https://api.apilayer.com/geo/country/currency';
 const APIKEY = "Hf0LEJqeLWefxwOr2yfas07pwZf7ZPeq";
 const FIELDS = "country,countryCode,currency,lat,lon"
+//added some additional currencies for the example
+const ADDITIONAL_CURRENCIES = ',GBP,EUR,CAD';
+const USA_LAT = '37.09024';
+const USA_LON = '-95.712891';
 
 async function getIpInformation(ip) {
   const ipInfoResponse = await axios.get(`${IP_API_URL}/${ip}?fields=${FIELDS}`);
@@ -21,7 +25,9 @@ async function getIpInformation(ip) {
     }
   };
 
-  return await axios.get(`${FIXER_API_URL}?base=USD&symbols=${currency},GBP,EUR`, options)
+  //this endpoint only retrieves one currency by country, even for countries that has more currencies like China or Cuba.
+  //in order to get more currencies add them to the ADDITIONAL_CURRENCIES constant.
+  return await axios.get(`${FIXER_API_URL}?base=USD&symbols=${currency}${ADDITIONAL_CURRENCIES}`, options)
     .then(async response => {
       if (!response.data || response.data.success === false) {
         throw new Error(`Unable to get currency conversion rate for ${currency}`);
@@ -48,7 +54,7 @@ async function getIpInformation(ip) {
 async function getCurrencies(rates, options) {
   const arr = [];
   for (const rate in rates) {
-    let sym = await getCurrencySymbol(rate, options);    
+    let sym = await getCurrencySymbol(rate, options);
     arr.push({ iso: rate, symbol: sym, conversion_rate: 1 / rates[rate] });
   }
   arr.push({
@@ -74,9 +80,20 @@ async function getCurrencySymbol(currency, options) {
 }
 
 function calculateDistance(lat, lon) {
-  // Use a distance calculation library or formula to calculate the distance from the provided coordinates to the USA
-  // For example: https://www.npmjs.com/package/geolib
-  return '';
+  // Calculate the distance between the two points using the Haversine formula
+  const earthRadius = 6371; // in km
+  const dLat = toRadians(lat - USA_LAT);
+  const dLon = toRadians(lon - USA_LON);
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRadians(lat)) * Math.cos(toRadians(USA_LAT)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = earthRadius * c;
+
+  return distance.toFixed(2);
+}
+
+// Helper function to convert degrees to radians
+function toRadians(degrees) {
+  return degrees * Math.PI / 180;
 }
 
 async function getTrace(req, res) {
