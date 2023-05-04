@@ -1,6 +1,3 @@
-var mode = process.env.NODE_ENV || 'dev';
-console.log(mode);
-
 const getTrace = require ('./traces');
 const http = require('http');
 const express = require('express');
