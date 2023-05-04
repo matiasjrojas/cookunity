@@ -55,7 +55,8 @@ async function getCurrencies(rates, options) {
   const arr = [];
   for (const rate in rates) {
     let sym = await getCurrencySymbol(rate, options);
-    arr.push({ iso: rate, symbol: sym, conversion_rate: 1 / rates[rate] });
+    const conversion_rate = 1 / rates[rate];
+    arr.push({ iso: rate, symbol: sym, conversion_rate: conversion_rate.toFixed(4) });
   }
   arr.push({
     iso: 'USD',
