@@ -3,7 +3,7 @@ const axios = require('axios');
 const IP_API_URL = 'http://ip-api.com/json';
 const FIXER_API_URL = 'https://api.apilayer.com/fixer/latest';
 const CURRENCY_API_URL = 'https://api.apilayer.com/geo/country/currency';
-const APIKEY = "Hf0LEJqeLWefxwOr2yfas07pwZf7ZPeq";
+const APIKEY = "JnuMIz1Civ9lYvotTl8Z9h7ABe2J6icB";
 const FIELDS = "country,countryCode,currency,lat,lon"
 //added some additional currencies for the example
 const ADDITIONAL_CURRENCIES = ',GBP,EUR,CAD';
@@ -46,23 +46,27 @@ async function getIpInformation(ip) {
       };
     })
     .catch(error => {
-      console.error(error);
-      return null;
+      console.error(error.message);
+      return error.message;
     });
 }
 
 async function getCurrencies(rates, options) {
   const arr = [];
   for (const rate in rates) {
-    let sym = await getCurrencySymbol(rate, options);
-    const conversion_rate = 1 / rates[rate];
-    arr.push({ iso: rate, symbol: sym, conversion_rate: conversion_rate.toFixed(4) });
+    if (rate !== 'USD') {
+      let sym = await getCurrencySymbol(rate, options);
+      const conversion_rate = 1 / rates[rate];
+      arr.push({ iso: rate, symbol: sym, conversion_rate: conversion_rate.toFixed(4) });
+    }
   }
+  
   arr.push({
     iso: 'USD',
     symbol: '$',
     conversion_rate: 1
   });
+
   return arr;
 }
 
