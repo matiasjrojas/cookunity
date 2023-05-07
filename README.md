@@ -52,7 +52,7 @@ body: {"ip":"167.62.158.169"}
 A resource which, on an HTTP GET, returns:
 - Longest distance from requested traces
 - Most traced country
-- 
+
 ### Example request
 
 ```
@@ -110,8 +110,8 @@ This app is deployed in AWS cloud.
 It has the following architecture:
 
 - EC2 instance with an NGINX that forwards all requests to the Node JS app.
-- Kinesis Data Stream for the messages produced for each call to the /traces endpoint. Another service consumes these messages, calculate statistics and persist the data in the DynamoDB.
-- The /statistics endpoint make two calls to the DB to get the statistics data.
+- Kinesis Data Stream for the messages produced for each call to the **/traces** endpoint. Another service consumes these messages, calculate statistics and persist the data in the DynamoDB.
+- The **/statistics** endpoint make two calls to the DB to get the statistics data.
 - DynamoDB to store the statistics information
 
 ### Example of the statistics table in the DynamoDb
