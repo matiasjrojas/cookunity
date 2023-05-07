@@ -103,6 +103,14 @@ aws_secret_access_key = YOUR_AWS_SECRET_ACCESS_KEY
 npm start
 ```
 
+## External Dependencies
+
+This app uses external APIs for getting the information requested
+
+- https://ip-api.com/ => For IP geolocalization
+- https://apilayer.com/marketplace/fixer-api => for exchange rate in real time
+- https://apilayer.com/marketplace/geo-api => for currency symbols
+
 
 ## Cloud
 
