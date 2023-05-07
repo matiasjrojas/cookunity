@@ -34,6 +34,8 @@ async function statistics() {
         }
     };
 
+    console.log(data);
+
     return data;
 }
 
