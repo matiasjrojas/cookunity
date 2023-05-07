@@ -49,13 +49,16 @@ async function getLongestDistance() {
     };
     try {
         const data = await docClient.scan(params).promise();
+        if (!data.Items || data.Items.length === 0) {
+            return null;
+        }
         const result = data.Items.reduce((firstElement, currentElement) => {
-            if (currentElement.data.distance > firstElement.data.distance) {
+            if (firstElement == null || currentElement.data.distance > firstElement.data.distance) {
                 return currentElement;
             } else {
                 return firstElement;
             }
-        });
+        }, null);
         return result;
     } catch (err) {
         console.log(err);
@@ -70,13 +73,16 @@ async function getMostTraced() {
     };
     try {
         const data = await docClient.scan(params).promise();
+        if (!data.Items || data.Items.length === 0) {
+            return null;
+        }
         const result = data.Items.reduce((firstElement, currentElement) => {
-            if (currentElement.data.traced > firstElement.data.traced) {
+            if (firstElement == null || currentElement.data.traced > firstElement.data.traced) {
                 return currentElement;
             } else {
                 return firstElement;
             }
-        });
+        }, null);
         return result;
     } catch (err) {
         console.log(err);

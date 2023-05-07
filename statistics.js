@@ -25,12 +25,12 @@ async function statistics() {
 
     const data = {
         "longest_distance": {
-            "country": longestDistance.country,
-            "value": longestDistance.data.distance
+            "country": longestDistance ? longestDistance.country : null,
+            "value": longestDistance ? longestDistance.data.distance : null
         },
         "most_traced": {
-            "country": mostTraced.country,
-            "value": mostTraced.data.traced
+            "country": mostTraced ? mostTraced.country : null,
+            "value": mostTraced ? mostTraced.data.traced : null
         }
     };
 
