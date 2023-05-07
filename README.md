@@ -89,7 +89,7 @@ npm install
 
 #### Kinesis Data Streams
 
-Create a **credentials** file in $HOME/.aws/ with the following data:
+Create a **credentials** file in *$HOME/.aws/* with the following data:
 
 ```
 [default]
@@ -111,6 +111,8 @@ This app uses external APIs for getting the information requested
 - https://apilayer.com/marketplace/fixer-api => for exchange rate in real time
 - https://apilayer.com/marketplace/geo-api => for currency symbols
 
+Please note that the apilayer API has a development APIKEY with limited access (100 request per month).
+For more rate limit there are extra costs.
 
 ## Cloud
 
