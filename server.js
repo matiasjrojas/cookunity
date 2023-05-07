@@ -1,8 +1,9 @@
-const getTrace = require('./traces');
 const http = require('http');
 const express = require('express');
-const putRecord = require('./kinesis')
+const getTrace = require('./traces');
+const { statistics } = require("./statistics")
 const consume = require('./kinesis-consumer')
+//const putRecord = require('./kinesis')
 const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -18,6 +19,13 @@ app.post('/traces', (req, res) => {
     return getTrace(req, res);
 });
 
+app.get('/statistics', async (req, res) => {
+    res.send(await statistics());
+});
+
+
+// for test purposes
+/*
 app.post('/kinesis', (req, res) => {
     const { ip } = req.body;
 
@@ -30,6 +38,7 @@ app.post('/kinesis', (req, res) => {
 
     res.json(ip);
 });
+*/
 
 if (require.main === module) {
     var server = http.createServer(app);

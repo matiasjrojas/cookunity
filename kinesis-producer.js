@@ -6,6 +6,7 @@ const credentials = fromIni({ profile: "default" });
 const kinesis = new Kinesis({ credentials, region: region });
 const streamName = "cookunity";
 
+//put a record in kinesis data stream
 function putRecord(data) {
     const encoder = new TextEncoder();
     const encodedData = encoder.encode(JSON.stringify(data));
@@ -23,7 +24,7 @@ function putRecord(data) {
         if (err) {
             console.error(err);
         } else {
-            console.log(`Data sent to Kinesis: ${data.message}`);
+            console.log(`Data sent to Kinesis: ${JSON.stringify(data)}`);
         }
     });
 }

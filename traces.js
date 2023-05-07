@@ -1,3 +1,4 @@
+const putRecord = require('./kinesis-producer')
 const axios = require('axios');
 
 const IP_API_URL = 'http://ip-api.com/json';
@@ -7,6 +8,7 @@ const APIKEY = "JnuMIz1Civ9lYvotTl8Z9h7ABe2J6icB";
 const FIELDS = "country,countryCode,currency,lat,lon"
 //added some additional currencies for the example
 const ADDITIONAL_CURRENCIES = ',GBP,EUR,CAD';
+//default lat,lon for USA
 const USA_LAT = '37.09024';
 const USA_LON = '-95.712891';
 
@@ -106,6 +108,8 @@ async function getTrace(req, res) {
 
   try {
     const ipInformation = await getIpInformation(ip);
+    const { name, distance_to_usa } = ipInformation;
+    putRecord({ country: `${name}`, distance: `${distance_to_usa}`});
     res.json(ipInformation);
   } catch (error) {
     console.error(error);
