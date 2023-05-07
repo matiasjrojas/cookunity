@@ -28,28 +28,5 @@ function putRecord(data) {
     });
 }
 
-async function getRecords() {
-    const params = {
-        ShardIteratorType: "TRIM_HORIZON",
-        StreamName: streamName,
-        ShardId: "shardId-000000000003", // ID del shard del stream
-    };
-
-    const iterator = await kinesis.getShardIterator(params).catch((err) => {
-        console.error(err);
-    });
-
-    const shardIterator = iterator.ShardIterator;
-
-    const records = await kinesis.getRecords({ ShardIterator: shardIterator });
-
-    const messages = [];
-    for (const key in records.Records) {
-        messages.push(JSON.parse(Buffer.from(records.Records[key].Data).toString()));
-    }
-
-    return messages;
-}
-
-module.exports = { putRecord, getRecords };
+module.exports = putRecord;
 

@@ -1,7 +1,8 @@
 const getTrace = require('./traces');
 const http = require('http');
 const express = require('express');
-const { putRecord, getRecords } = require('./kinesis')
+const putRecord = require('./kinesis')
+const consume = require('./kinesis-consumer')
 const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -30,22 +31,10 @@ app.post('/kinesis', (req, res) => {
     res.json(ip);
 });
 
-app.get('/kinesisget', async (req, res) => {
-    try {
-        const records = await getRecords();
-        res.json(records);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send(error.message);
-    }
-
-});
-
-
-
 if (require.main === module) {
     var server = http.createServer(app);
     server.listen(process.env.PORT || 3000, () => {
         console.log("Listening on %j", server.address());
     });
+    consume();
 }
