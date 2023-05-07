@@ -47,6 +47,9 @@ body: {"ip":"167.62.158.169"}
 }
 ```
 
+**Note**: as there was no country with more than one currency I added some as an example (GBP,EUR,CAD).
+These are fixed in the code but they can be removed if necessary.
+
 - **statistics**
 
 A resource which, on an HTTP GET, returns:
