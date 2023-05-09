@@ -27,5 +27,18 @@ if (require.main === module) {
     server.listen(process.env.PORT || 3000, () => {
         console.log("Listening on %j", server.address());
     });
-    consume();
+
+    function startConsumer(attempts = 1) {
+        consume().catch((err) => {
+            console.error(`Failed to consume messages from Kinesis: ${err}`);
+            if (attempts < 10) {
+                console.error(`Retrying in 5 seconds... (attempt ${attempts + 1})`);
+                setTimeout(() => startConsumer(attempts + 1), 5000);
+            } else {
+                console.error('Maximum number of attempts reached. Exiting...');
+                process.exit(1);
+            }
+        });
+    }
+    startConsumer();
 }
